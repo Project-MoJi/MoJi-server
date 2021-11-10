@@ -5,15 +5,19 @@ const crypto  = require('crypto-promise');		// crypto 모듈의 promise 버전
 const db 		  = require('../../module/pool.js');
 
 router.post('/', async (req, res) => {
-	let email = req.body.email;
-	let pw 		= req.body.pw;
-	let resultJson = {
+	const email 		= req.body.email;
+	const pw 				= req.body.pw;
+  const fcm_token = req.body.fcm_token;
+	let resultJson  = {
 		message : "",
 		nickname : ""
 	}
 
-	let checkQuery  = 'SELECT * FROM USER WHERE email = ?';
+	const checkQuery  = 'SELECT * FROM USER WHERE email = ?';
 	let checkResult = await db.queryParam_Arr(checkQuery, [email]);	
+
+  const updateFcm = 'update USER set fcm_token = ? where email = ?';
+  let fcm = await db.queryParam_Arr(updateFcm, [fcm_token, email]);
 
 	// 정상적으로 query문이 수행되지 않았을 경우
 	if (!checkResult) {

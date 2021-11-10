@@ -22,7 +22,7 @@ router.post('/', async function (req, res) {
 		return;
 	} else if (checkResult.length >= 1) { 
 		if (email === checkResult[0].email) resultJson.message = "Already Exists email";
-		if (email === checkResult[1].nickname) resultJson.message = "Already Exists nickname";
+		if (nickname === checkResult[0].nickname) resultJson.message = "Already Exists nickname";
 
 		res.status(201).send(resultJson);
 		return;
